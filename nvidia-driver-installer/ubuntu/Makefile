@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TAG?=latest
-REGISTRY?=gcr.io/google-containers
+TAG?=0.1.0
+REGISTRY?=cmluciano
 IMAGE=ubuntu-nvidia-driver-installer
 
 container:
 	docker build --pull -t ${REGISTRY}/${IMAGE}:${TAG} .
 
 push:
-	gcloud docker -- push ${REGISTRY}/${IMAGE}:${TAG}
+	docker push ${REGISTRY}/${IMAGE}:${TAG}
 
 .PHONY: container push

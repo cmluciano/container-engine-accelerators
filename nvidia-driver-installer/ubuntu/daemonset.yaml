@@ -23,13 +23,6 @@ spec:
       labels:
         name: nvidia-driver-installer
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: cloud.google.com/gke-accelerator
-                operator: Exists
       tolerations:
       - key: "nvidia.com/gpu"
         effect: "NoSchedule"
@@ -47,11 +40,13 @@ spec:
         hostPath:
           path: /
       initContainers:
-      - image: gcr.io/google-containers/ubuntu-nvidia-driver-installer@sha256:7ffaf40fcf6bcc5bc87501b6be295a47ce74e1f7aac914a9f3e6c6fb8dd780a4
+      - image: cmluciano/ubuntu-nvidia-driver-installer:0.1.0
         name: nvidia-driver-installer
         resources:
           requests:
-            cpu: 0.15
+            cpu: 1
+          limits:
+            cpu: 1
         securityContext:
           privileged: true
         env:
@@ -69,5 +64,5 @@ spec:
         - name: root-mount
           mountPath: /root
       containers:
-      - image: "gcr.io/google-containers/pause:2.0"
+      - image: "gcr.io/google_containers/pause-amd64:3.0"
         name: pause
